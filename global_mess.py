@@ -2,13 +2,18 @@ import os
 import shutil
 import socket
 import ipaddress
-import nwscan
 import getpass
+
+os.system('pip install nwscan')
+
+import nwscan
+
 
 def message_file():
 
 	netw_adds = []
 	available_ips = []
+
 
 	host_name = socket.gethostname()
 	host_ip = socket.gethostbyname(host_name)
