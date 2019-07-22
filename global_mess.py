@@ -10,10 +10,7 @@ import nwscan
 
 
 def message_file():
-
 	netw_adds = []
-	available_ips = []
-
 
 	host_name = socket.gethostname()
 	host_ip = socket.gethostbyname(host_name)
@@ -49,7 +46,9 @@ def message_file():
 	except OSError as e:
 		print(e)
 
-	global_dir = f"C:\\Users\\{focus_user}\\Desktop\\global_message"	
+	global_dir = f"C:\\Users\\{focus_user}\\Desktop\\global_message"
+
+	print("Scanning network for message files")
 
 	for ip in netw_adds:
 
@@ -64,16 +63,16 @@ def message_file():
 			for x in mess_dir:
 				if file_name in x:
 					message_file=x
-
+			print('Message file: ', x, 'added!')
 		except OSError as e:
-			print(e)
+			print('Could not locate message file at path:', msg_loc)
 
 		msg = f"\\\\{ip}\\c\\focus\\localstatus\\{message_file}"
 
 		try:
 			shutil.copy2(msg, global_dir, follow_symlinks=True)
 		except OSError as e:
-			print("Could not copy:", e)
+			print("Could not copy message file from path:", msg)
 
 	os.chdir(udskt)
 	
