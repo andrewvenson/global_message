@@ -4,13 +4,16 @@ import socket
 import ipaddress
 import getpass
 
-os.system('pip install nwscan')
+try:
+	os.system('pip install nwscan')
+except:
+	print("")
 
 import nwscan
 
-
 def message_file():
 	netw_adds = []
+	hst_names = []
 
 	host_name = socket.gethostname()
 	host_ip = socket.gethostbyname(host_name)
@@ -30,13 +33,18 @@ def message_file():
 
 	for x in f.readlines():
 		netw_adds.append(x.replace("\n", ""))
+		try:
+			term_ip = socket.gethostbyaddr(x.replace("\n", ""))
+			hst_names.append(term_ip[0])
+		except:
+			print("Host name not available.")
 
 	f.close()
 
 	try:
 		shutil.rmtree(f"C:\\Users\\{focus_user}\\Desktop\\global_message")
 	except OSError as e:
-		print(e)
+		print("Creating global message folder.")
 
 	udskt = f"C:\\users\\{focus_user}\\desktop"
 	os.chdir(udskt)
@@ -44,18 +52,18 @@ def message_file():
 	try:
 		os.mkdir('global_message')
 	except OSError as e:
-		print(e)
+		print("Global directory active.")
 
 	global_dir = f"C:\\Users\\{focus_user}\\Desktop\\global_message"
 
 	print("Scanning located addresses for message files")
 
-	for ip in netw_adds:
+	for hst in hst_names:
 
 		message_file = None
 
 		file_name = f"MSG{str(month) + str(day)}"
-		msg_loc = f"\\\\{ip}\\c\\focus\\localstatus"
+		msg_loc = f"\\\\{hst}\\c\\focus\\localstatus"
 
 		try:
 			os.chdir(msg_loc)
@@ -63,11 +71,11 @@ def message_file():
 			for x in mess_dir:
 				if file_name in x:
 					message_file=x
-			print('Message file: ', x, 'added!')
+					print('Message file: ', x, 'added!')
 		except OSError as e:
 			print('Could not locate message file at path:', msg_loc)
 
-		msg = f"\\\\{ip}\\c\\focus\\localstatus\\{message_file}"
+		msg = f"\\\\{hst}\\c\\focus\\localstatus\\{message_file}"
 
 		try:
 			shutil.copy2(msg, global_dir, follow_symlinks=True)
