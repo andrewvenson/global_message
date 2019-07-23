@@ -20,8 +20,8 @@ def message_file():
 	focus_user = getpass.getuser()
 	mess_dir = "C:\\focus\\localstatus"
 
-	month = input("Enter the month you would like to get message files for ( In this format: 01 for January ):\n")
-	day = input("Enter the day you would like to get message files for ( In this format: 01 for day 1 ):\n")
+	month = input("Enter Month ( In this format: 01 for January ):\n")
+	day = input("Enter Day ( In this format: 01 for day 1 ):\n")
 	
 	os.chdir(f'C:\\users\\{focus_user}\\desktop')
 	ip_addresses = os.system(f'nwscan {subnet} -o ips.txt')
@@ -48,7 +48,7 @@ def message_file():
 
 	global_dir = f"C:\\Users\\{focus_user}\\Desktop\\global_message"
 
-	print("Scanning network for message files")
+	print("Scanning located addresses for message files")
 
 	for ip in netw_adds:
 
@@ -80,6 +80,6 @@ def message_file():
 
 	os.remove(f"C:\\users\\{focus_user}\\desktop\\ips.txt")
 	shutil.rmtree('global_message')
-
+        
 if __name__ == "__main__":
 	message_file()
