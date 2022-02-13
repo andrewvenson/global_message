@@ -1,3 +1,7 @@
+## global_message
+Retrieves all focus global message files on network
+
+### Steps
 - Find pc on network that you'll install program on, this will be the station that will be able to
   populate global message files
 
